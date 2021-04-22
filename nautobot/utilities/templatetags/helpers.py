@@ -335,10 +335,14 @@ def table_config_form(table, table_name=None):
 
 @register.inclusion_tag("utilities/templatetags/model_form_as_dialog.html")
 def model_form_as_dialog(form, editing=False, form_name=None, obj=None, obj_type=None):
+    if not obj:
+        action_url = form.get_action_add_url()
+    else:
+        action_url = form.get_action_edit_url(obj)
     return {
-        "editing": editing,
-        "form": form,
-        "form_action_url": form.get_action_url(),
+        "editing": editing or obj.present_in_database,
+        "form": form.__class__(instance=obj),
+        "form_action_url": action_url,
         "form_name": form_name or form.__class__.__name__,
         "obj": obj,
         "obj_type": obj_type,
