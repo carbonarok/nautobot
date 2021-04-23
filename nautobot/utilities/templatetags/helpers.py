@@ -340,7 +340,7 @@ def model_form_as_dialog(form, editing=False, form_name=None, obj=None, obj_type
     else:
         action_url = form.get_action_edit_url(obj)
     return {
-        "editing": editing or obj.present_in_database,
+        "editing": editing,
         "form": form.__class__(instance=obj),
         "form_action_url": action_url,
         "form_name": form_name or form.__class__.__name__,
